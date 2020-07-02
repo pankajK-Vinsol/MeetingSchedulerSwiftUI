@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,9 @@
 		46B4943824AC9E6700412BF8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46B4943724AC9E6700412BF8 /* Preview Assets.xcassets */; };
 		46B4943B24AC9E6700412BF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46B4943924AC9E6700412BF8 /* LaunchScreen.storyboard */; };
 		46B4944324ACC22500412BF8 /* SchedulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4944224ACC22500412BF8 /* SchedulerView.swift */; };
+		46B4944524AE1D0900412BF8 /* MeetingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4944424AE1D0900412BF8 /* MeetingData.swift */; };
+		46B4944724AE213100412BF8 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4944624AE213100412BF8 /* API.swift */; };
+		A85524A91699325339C7DF7A /* Pods_SwiftUIMeetingScheduler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEFE4634C5E09E99D84AF25 /* Pods_SwiftUIMeetingScheduler.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,11 @@
 		46B4943A24AC9E6700412BF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		46B4943C24AC9E6700412BF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		46B4944224ACC22500412BF8 /* SchedulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerView.swift; sourceTree = "<group>"; };
+		46B4944424AE1D0900412BF8 /* MeetingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingData.swift; sourceTree = "<group>"; };
+		46B4944624AE213100412BF8 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		552BAE7761A82F7516D0AE13 /* Pods-SwiftUIMeetingScheduler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIMeetingScheduler.release.xcconfig"; path = "Target Support Files/Pods-SwiftUIMeetingScheduler/Pods-SwiftUIMeetingScheduler.release.xcconfig"; sourceTree = "<group>"; };
+		7EEFE4634C5E09E99D84AF25 /* Pods_SwiftUIMeetingScheduler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftUIMeetingScheduler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A639EF8890D9C91074FD2BCB /* Pods-SwiftUIMeetingScheduler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIMeetingScheduler.debug.xcconfig"; path = "Target Support Files/Pods-SwiftUIMeetingScheduler/Pods-SwiftUIMeetingScheduler.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A85524A91699325339C7DF7A /* Pods_SwiftUIMeetingScheduler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +53,8 @@
 			children = (
 				46B4942D24AC9E6500412BF8 /* SwiftUIMeetingScheduler */,
 				46B4942C24AC9E6500412BF8 /* Products */,
+				4F64445F376484601DD43C49 /* Pods */,
+				8C28DD789531C1C173E41761 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +73,8 @@
 				46B4943024AC9E6500412BF8 /* SceneDelegate.swift */,
 				46B4943224AC9E6500412BF8 /* ContentView.swift */,
 				46B4944224ACC22500412BF8 /* SchedulerView.swift */,
+				46B4944424AE1D0900412BF8 /* MeetingData.swift */,
+				46B4944624AE213100412BF8 /* API.swift */,
 				46B4943424AC9E6700412BF8 /* Assets.xcassets */,
 				46B4943924AC9E6700412BF8 /* LaunchScreen.storyboard */,
 				46B4943C24AC9E6700412BF8 /* Info.plist */,
@@ -78,6 +91,23 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		4F64445F376484601DD43C49 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A639EF8890D9C91074FD2BCB /* Pods-SwiftUIMeetingScheduler.debug.xcconfig */,
+				552BAE7761A82F7516D0AE13 /* Pods-SwiftUIMeetingScheduler.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		8C28DD789531C1C173E41761 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7EEFE4634C5E09E99D84AF25 /* Pods_SwiftUIMeetingScheduler.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -85,9 +115,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 46B4943F24AC9E6700412BF8 /* Build configuration list for PBXNativeTarget "SwiftUIMeetingScheduler" */;
 			buildPhases = (
+				E29FE28AE85AC79460177F95 /* [CP] Check Pods Manifest.lock */,
 				46B4942724AC9E6500412BF8 /* Sources */,
 				46B4942824AC9E6500412BF8 /* Frameworks */,
 				46B4942924AC9E6500412BF8 /* Resources */,
+				0B7317637931E57D3B3AFF9A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -144,6 +176,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0B7317637931E57D3B3AFF9A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SwiftUIMeetingScheduler/Pods-SwiftUIMeetingScheduler-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SwiftUIMeetingScheduler/Pods-SwiftUIMeetingScheduler-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SwiftUIMeetingScheduler/Pods-SwiftUIMeetingScheduler-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E29FE28AE85AC79460177F95 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SwiftUIMeetingScheduler-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		46B4942724AC9E6500412BF8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -152,6 +226,8 @@
 				46B4944324ACC22500412BF8 /* SchedulerView.swift in Sources */,
 				46B4942F24AC9E6500412BF8 /* AppDelegate.swift in Sources */,
 				46B4943124AC9E6500412BF8 /* SceneDelegate.swift in Sources */,
+				46B4944524AE1D0900412BF8 /* MeetingData.swift in Sources */,
+				46B4944724AE213100412BF8 /* API.swift in Sources */,
 				46B4943324AC9E6500412BF8 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +362,7 @@
 		};
 		46B4944024AC9E6700412BF8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A639EF8890D9C91074FD2BCB /* Pods-SwiftUIMeetingScheduler.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -305,6 +382,7 @@
 		};
 		46B4944124AC9E6700412BF8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 552BAE7761A82F7516D0AE13 /* Pods-SwiftUIMeetingScheduler.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

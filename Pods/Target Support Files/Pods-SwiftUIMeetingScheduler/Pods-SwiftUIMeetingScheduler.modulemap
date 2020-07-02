@@ -1,0 +1,6 @@
+framework module Pods_SwiftUIMeetingScheduler {
+  umbrella header "Pods-SwiftUIMeetingScheduler-umbrella.h"
+
+  export *
+  module * { export * }
+}

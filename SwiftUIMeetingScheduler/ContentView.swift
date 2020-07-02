@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+var meetArr : [MeetingData] = []
+
 struct ContentView: View {
     init() {
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -17,6 +19,7 @@ struct ContentView: View {
     @State private var dateString = ""
     @State private var date = NSDate()
     @State private var disableScheduleButton = false
+    @State private var meetingArray = [MeetingData]()
     
     struct ButtonTextStyle: ViewModifier {
         func body(content: Content) -> some View {
@@ -35,8 +38,12 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            List {
-                MeetingRow()
+            List(meetingArray) { item in
+                MeetingRow(meet: item)
+            }
+            .onAppear {
+                UITableView.appearance().separatorStyle = .singleLine
+                self.callAPI()
             }
             NavigationLink(destination: SchedulerView()) {
                 Text("SCHEDULE COMPANY MEETING").modifier(ButtonTextStyle())
@@ -44,6 +51,7 @@ struct ContentView: View {
             }
             .disabled(disableScheduleButton)
             .modifier(BackgroundColorStyle())
+            .cornerRadius(8)
         }
         .onAppear(perform: setInitialNavigationTitle)
         .navigationBarTitle(Text(dateString), displayMode: .inline)
@@ -57,6 +65,19 @@ struct ContentView: View {
         }) {
             Text("NEXT").modifier(ButtonTextStyle())
         })
+    }
+    
+    private func callAPI() {
+        let serverUrl = "http://fathomless-shelf-5846.herokuapp.com/api/schedule?date=\(dateString)"
+        API.getMeetingData(serverUrl) {
+            (meetingArr) in
+            DispatchQueue.main.async {
+                if let arr = meetingArr, arr.count > 0 {
+                    self.meetingArray = arr
+                    meetArr = arr
+                }
+            }
+        }
     }
     
     private func setInitialNavigationTitle() {
@@ -78,6 +99,7 @@ struct ContentView: View {
         }
         dateString = convertDateAsString(dateString: date)
         canScheduleMeetingForDate(date)
+        callAPI()
     }
     
     private func showNextDate() {
@@ -89,6 +111,7 @@ struct ContentView: View {
         }
         dateString = convertDateAsString(dateString: date)
         canScheduleMeetingForDate(date)
+        callAPI()
     }
     
     private func convertDateAsString(dateString: NSDate) -> String {
@@ -115,14 +138,17 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct MeetingRow: View {
+    var meet: MeetingData
     var body: some View {
-        Text("Please be ready.")
-            .frame(height: 50)
+        VStack(alignment: .leading) {
+            Text(verbatim: "\(meet.start_Time ?? "") - \(meet.end_Time ?? "")")
+            Text(verbatim: meet.meeting_Disc ?? "")
+        }
     }
 }
 
 struct MeetingRow_Previews: PreviewProvider {
     static var previews: some View {
-        MeetingRow()
+        MeetingRow(meet: meetArr[0])
     }
 }
