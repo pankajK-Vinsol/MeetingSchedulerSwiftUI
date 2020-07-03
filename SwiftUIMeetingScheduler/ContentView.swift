@@ -20,6 +20,7 @@ struct ContentView: View {
     @State private var date = NSDate()
     @State private var disableScheduleButton = false
     @State private var meetingArray = [MeetingData]()
+    @State private var shouldCallAPI = true
     
     struct ButtonTextStyle: ViewModifier {
         func body(content: Content) -> some View {
@@ -45,6 +46,9 @@ struct ContentView: View {
                 UITableView.appearance().separatorStyle = .singleLine
                 self.callAPI()
             }
+            .onDisappear {
+                self.shouldCallAPI = false
+            }
             NavigationLink(destination: SchedulerView()) {
                 Text("SCHEDULE COMPANY MEETING").modifier(ButtonTextStyle())
                     .frame(width: 280, height: 40, alignment: .center)
@@ -68,15 +72,19 @@ struct ContentView: View {
     }
     
     private func callAPI() {
-        let serverUrl = "http://fathomless-shelf-5846.herokuapp.com/api/schedule?date=\(dateString)"
-        API.getMeetingData(serverUrl) {
-            (meetingArr) in
-            DispatchQueue.main.async {
-                if let arr = meetingArr, arr.count > 0 {
-                    self.meetingArray = arr
-                    meetArr = arr
+        if shouldCallAPI {
+            let serverUrl = "http://fathomless-shelf-5846.herokuapp.com/api/schedule?date=\(dateString)"
+            API.getMeetingData(serverUrl) {
+                (meetingArr) in
+                DispatchQueue.main.async {
+                    if let arr = meetingArr, arr.count > 0 {
+                        self.meetingArray = arr
+                        meetArr = arr
+                    }
                 }
             }
+        } else {
+            return
         }
     }
     
@@ -99,6 +107,7 @@ struct ContentView: View {
         }
         dateString = convertDateAsString(dateString: date)
         canScheduleMeetingForDate(date)
+        shouldCallAPI = true
         callAPI()
     }
     
@@ -111,6 +120,7 @@ struct ContentView: View {
         }
         dateString = convertDateAsString(dateString: date)
         canScheduleMeetingForDate(date)
+        shouldCallAPI = true
         callAPI()
     }
     
