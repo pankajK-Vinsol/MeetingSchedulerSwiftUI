@@ -10,9 +10,9 @@ import Foundation
 
 class MeetingData: NSObject, Identifiable {
     
-    var start_Time: String?
-    var end_Time: String?
-    var meeting_Disc: String?
+    let start_Time: String?
+    let end_Time: String?
+    let meeting_Disc: String?
     
     init(meetingInfo : NSDictionary) {
         self.start_Time = meetingInfo["start_time"] as? String ?? ""

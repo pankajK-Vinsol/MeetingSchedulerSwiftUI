@@ -43,7 +43,8 @@ struct ContentView: View {
                 MeetingRow(meet: item)
             }
             .onAppear {
-                UITableView.appearance().separatorStyle = .singleLine
+                UITableView.appearance().separatorStyle = .none
+                self.canScheduleMeetingForDate(self.date)
                 self.callAPI()
             }
             .onDisappear {
@@ -80,6 +81,7 @@ struct ContentView: View {
                     if let arr = meetingArr, arr.count > 0 {
                         self.meetingArray = arr
                         meetArr = arr
+                        UserDefaults.standard.set(self.dateString, forKey: "meetingDate")
                     }
                 }
             }
@@ -133,12 +135,24 @@ struct ContentView: View {
     private func canScheduleMeetingForDate(_ getDate: NSDate) {
         let checkDate = NSDate()
         let checkDateString = convertDateAsString(dateString:  NSDate())
-        if getDate.compare(checkDate as Date) == .orderedDescending || dateString == checkDateString {
+        if dateString == checkDateString {
+            let format = DateFormatter()
+            format.dateFormat = "HH:mm"
+            let time = format.string(from: checkDate as Date).replacingOccurrences(of: ":", with: "")
+            guard let timeInt = Int(time) else { return }
+            if timeInt > 1600 {
+                disableScheduleButton = true
+            } else {
+                disableScheduleButton = false
+            }
+        }
+        else if getDate.compare(checkDate as Date) == .orderedDescending {
             disableScheduleButton = false
         } else {
             disableScheduleButton = true
         }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -149,10 +163,33 @@ struct ContentView_Previews: PreviewProvider {
 
 struct MeetingRow: View {
     var meet: MeetingData
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(verbatim: "\(meet.start_Time ?? "") - \(meet.end_Time ?? "")")
-            Text(verbatim: meet.meeting_Disc ?? "")
+        if horizontalSizeClass == .compact {
+            return ZStack {
+                VStack(alignment: .leading) {
+                    Text(verbatim: "\(self.meet.start_Time ?? "") - \(self.meet.end_Time ?? "")")
+                    Text(verbatim: self.meet.meeting_Disc ?? "")
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .padding()
+                .background(Color.white.cornerRadius(5).shadow(radius: 3))
+            }.erase()
+        } else {
+            return ZStack {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(verbatim: "\(self.meet.start_Time ?? "")")
+                        Text("------")
+                        Text(verbatim: "\(self.meet.end_Time ?? "")")
+                    }
+                    Text(verbatim: self.meet.meeting_Disc ?? "")
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .padding()
+                .background(Color.white.cornerRadius(5).shadow(radius: 3))
+            }.erase()
         }
     }
 }
@@ -160,5 +197,11 @@ struct MeetingRow: View {
 struct MeetingRow_Previews: PreviewProvider {
     static var previews: some View {
         MeetingRow(meet: meetArr[0])
+    }
+}
+
+extension  View {
+    func erase() -> AnyView {
+        return AnyView(self)
     }
 }

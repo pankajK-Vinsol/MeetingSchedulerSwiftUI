@@ -9,6 +9,8 @@
 import Foundation
 import Alamofire
 
+var meetingData: [MeetingData] = []
+
 class API: NSObject {
     
     class func getMeetingData(_ url: String, completionHandler:@escaping ([MeetingData]?) -> Void) {
@@ -32,7 +34,10 @@ class API: NSObject {
                 }
                 
                 // Sort unordered data according to time
-                meetingArray = meetingArray.sorted(by: {Int($0.start_Time!.replacingOccurrences(of: ":", with: ""))! < Int($1.start_Time!.replacingOccurrences(of: ":", with: ""))!})
+                if meetingArray.count > 0 {
+                    meetingArray = meetingArray.sorted(by: {Int($0.start_Time!.replacingOccurrences(of: ":", with: ""))! < Int($1.start_Time!.replacingOccurrences(of: ":", with: ""))!})
+                    meetingData = meetingArray
+                }
                 
                 completionHandler(meetingArray)
                 
