@@ -47,9 +47,9 @@ struct MyDatePicker: UIViewRepresentable {
         @objc func dateChanged(_ sender: UIDatePicker) {
             datePicker.selection = sender.date
             if timeType == 1 {
-                UserDefaults.standard.set(sender.date, forKey: "startTime")
+                UserDefaults.standard.set("\(sender.date)", forKey: "startTime")
             } else {
-                UserDefaults.standard.set(sender.date, forKey: "endTime")
+                UserDefaults.standard.set("\(sender.date)", forKey: "endTime")
             }
         }
     }
