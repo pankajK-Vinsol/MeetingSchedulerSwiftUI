@@ -8,6 +8,53 @@
 
 import SwiftUI
 
+var timeType = 1
+
+struct MyDatePicker: UIViewRepresentable {
+    @Binding var selection: Date
+    let minuteInterval: Int
+    let minimumTime: Double
+    let maximumTime: Double
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self)
+    }
+
+    func makeUIView(context: UIViewRepresentableContext<MyDatePicker>) -> UIDatePicker {
+        let picker = UIDatePicker()
+        picker.addTarget(context.coordinator, action: #selector(Coordinator.dateChanged), for: .valueChanged)
+        return picker
+    }
+
+    func updateUIView(_ picker: UIDatePicker, context: UIViewRepresentableContext<MyDatePicker>) {
+        picker.minuteInterval = minuteInterval
+        let now = Date()
+        let components = Calendar.current.dateComponents([.day, .month, .year], from: now)
+        let today = Calendar.current.date(from: components)!
+        let hour = Calendar.current.component(.hour, from: now)
+        let currentSetTime = max(minimumTime, Double(hour + 1))
+        picker.minimumDate = today.addingTimeInterval(60 * 60 * currentSetTime)
+        picker.maximumDate = today.addingTimeInterval(60 * 60 * maximumTime)
+        picker.date = selection
+        picker.datePickerMode = .time
+    }
+
+    class Coordinator {
+        let datePicker: MyDatePicker
+        init(_ datePicker: MyDatePicker) {
+            self.datePicker = datePicker
+        }
+        @objc func dateChanged(_ sender: UIDatePicker) {
+            datePicker.selection = sender.date
+            if timeType == 1 {
+                UserDefaults.standard.set(sender.date, forKey: "startTime")
+            } else {
+                UserDefaults.standard.set(sender.date, forKey: "endTime")
+            }
+        }
+    }
+}
+
 struct SchedulerView: View {
     
     init() {
@@ -63,6 +110,7 @@ struct SchedulerView: View {
                         
                         TextField("Start Time", text: $startTime, onEditingChanged: { editing in
                             self.showDatePicker = editing
+                            timeType = 1
                         }, onCommit: { })
                             .frame(height: 40)
                             .modifier(CustomTextField())
@@ -70,6 +118,7 @@ struct SchedulerView: View {
                         
                         TextField("End Time", text: $endTime, onEditingChanged: { editing in
                             self.showDatePicker = editing
+                            timeType = 2
                         }, onCommit: { })
                             .frame(height: 40)
                             .modifier(CustomTextField())
@@ -93,6 +142,13 @@ struct SchedulerView: View {
                         
                         if self.showDatePicker {
                             MyDatePicker(selection: $currentSelectedTime, minuteInterval: minterval, minimumTime: 9, maximumTime: 17)
+                            Spacer()
+                            Button(action: {
+                                self.showDatePicker = false
+                                self.setTime(type: timeType)
+                            }) {
+                                Text("DONE")
+                            }
                         }
                     }
                     .padding()
@@ -159,47 +215,18 @@ struct SchedulerView: View {
             }.erase()
         }
     }
+    
+    private func setTime(type: Int) {
+        if type == 1 {
+            self.startTime = UserDefaults.standard.value(forKey: "startTime") as? String ?? ""
+        } else {
+            self.endTime = UserDefaults.standard.value(forKey: "endTime") as? String ?? ""
+        }
+    }
 }
 
 struct SchedulerView_Previews: PreviewProvider {
     static var previews: some View {
         SchedulerView()
-    }
-}
-
-struct MyDatePicker: UIViewRepresentable {
-    @Binding var selection: Date
-    let minuteInterval: Int
-    let minimumTime: Double
-    let maximumTime: Double
-
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(self)
-    }
-
-    func makeUIView(context: UIViewRepresentableContext<MyDatePicker>) -> UIDatePicker {
-        let picker = UIDatePicker()
-        picker.addTarget(context.coordinator, action: #selector(Coordinator.dateChanged), for: .valueChanged)
-        return picker
-    }
-
-    func updateUIView(_ picker: UIDatePicker, context: UIViewRepresentableContext<MyDatePicker>) {
-        picker.minuteInterval = minuteInterval
-        let components = Calendar.current.dateComponents([.day, .month, .year], from: Date())
-        let today = Calendar.current.date(from: components)!
-        picker.date = selection
-        picker.minimumDate = today.addingTimeInterval(60 * 60 * minimumTime)
-        picker.maximumDate = today.addingTimeInterval(60 * 60 * maximumTime)
-        picker.datePickerMode = .time
-    }
-
-    class Coordinator {
-        let datePicker: MyDatePicker
-        init(_ datePicker: MyDatePicker) {
-            self.datePicker = datePicker
-        }
-        @objc func dateChanged(_ sender: UIDatePicker) {
-            datePicker.selection = sender.date
-        }
     }
 }
