@@ -32,7 +32,16 @@ struct MyDatePicker: UIViewRepresentable {
         let components = Calendar.current.dateComponents([.day, .month, .year], from: now)
         let today = Calendar.current.date(from: components)!
         let hour = Calendar.current.component(.hour, from: now)
-        let currentSetTime = max(minimumTime, Double(hour + 1))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        let nowDateString = dateFormatter.string(from: now as Date)
+        let meetingSelectDate = UserDefaults.standard.value(forKey: "meetingDate") as? String ?? ""
+        var currentSetTime = Double()
+        if nowDateString == meetingSelectDate {
+            currentSetTime = max(minimumTime, Double(hour + 1))
+        } else {
+            currentSetTime = minimumTime
+        }
         picker.minimumDate = today.addingTimeInterval(60 * 60 * currentSetTime)
         picker.maximumDate = today.addingTimeInterval(60 * 60 * maximumTime)
         picker.date = selection
