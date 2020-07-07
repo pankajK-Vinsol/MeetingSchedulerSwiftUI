@@ -112,7 +112,7 @@ struct SchedulerView: View {
     var body: some View {
         if horizontalSizeClass == .compact {
             return ZStack {
-                List {
+                Form {
                     VStack(alignment: .center) {
                         TextField("Meeting Date", text: $meetingDate)
                             .frame(height: 40)
@@ -153,7 +153,7 @@ struct SchedulerView: View {
                         }
                         
                         if self.showDatePicker {
-                            MyDatePicker(selection: $currentSelectedTime, minuteInterval: minterval, minimumTime: 9, maximumTime: 17)
+                            MyDatePicker(selection: $currentSelectedTime, minuteInterval: minterval, minimumTime: lastStartTime, maximumTime: lastEndTime)
                             Spacer()
                             Button(action: {
                                 self.showDatePicker = false
@@ -173,7 +173,7 @@ struct SchedulerView: View {
             }.erase()
         } else {
             return ZStack {
-                List {
+                Form {
                     VStack(alignment: .leading) {
                         TextField("Meeting Date", text: $meetingDate)
                         .frame(height: 40)

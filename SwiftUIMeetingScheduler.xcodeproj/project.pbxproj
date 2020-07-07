@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4655717C24B4A1AF004F57BE /* ConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4655717B24B4A1AF004F57BE /* ConfigView.swift */; };
 		46B4942F24AC9E6500412BF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4942E24AC9E6500412BF8 /* AppDelegate.swift */; };
 		46B4943124AC9E6500412BF8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4943024AC9E6500412BF8 /* SceneDelegate.swift */; };
 		46B4943324AC9E6500412BF8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B4943224AC9E6500412BF8 /* ContentView.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4655717B24B4A1AF004F57BE /* ConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigView.swift; sourceTree = "<group>"; };
 		46B4942B24AC9E6500412BF8 /* SwiftUIMeetingScheduler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIMeetingScheduler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46B4942E24AC9E6500412BF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46B4943024AC9E6500412BF8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				46B4943024AC9E6500412BF8 /* SceneDelegate.swift */,
 				46B4943224AC9E6500412BF8 /* ContentView.swift */,
 				46B4944224ACC22500412BF8 /* SchedulerView.swift */,
+				4655717B24B4A1AF004F57BE /* ConfigView.swift */,
 				46B4944424AE1D0900412BF8 /* MeetingData.swift */,
 				46B4944624AE213100412BF8 /* API.swift */,
 				46B4943424AC9E6700412BF8 /* Assets.xcassets */,
@@ -226,6 +229,7 @@
 				46B4944324ACC22500412BF8 /* SchedulerView.swift in Sources */,
 				46B4942F24AC9E6500412BF8 /* AppDelegate.swift in Sources */,
 				46B4943124AC9E6500412BF8 /* SceneDelegate.swift in Sources */,
+				4655717C24B4A1AF004F57BE /* ConfigView.swift in Sources */,
 				46B4944524AE1D0900412BF8 /* MeetingData.swift in Sources */,
 				46B4944724AE213100412BF8 /* API.swift in Sources */,
 				46B4943324AC9E6500412BF8 /* ContentView.swift in Sources */,

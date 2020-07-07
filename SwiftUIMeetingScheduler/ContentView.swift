@@ -21,6 +21,7 @@ struct ContentView: View {
     @State private var disableScheduleButton = false
     @State private var meetingArray = [MeetingData]()
     @State private var shouldCallAPI = true
+    @State private var showingChildView = false
     
     struct ButtonTextStyle: ViewModifier {
         func body(content: Content) -> some View {
@@ -57,18 +58,31 @@ struct ContentView: View {
             .disabled(disableScheduleButton)
             .modifier(BackgroundColorStyle())
             .cornerRadius(8)
+            
+            NavigationLink(destination: ConfigView(), isActive: self.$showingChildView) {
+                Text("")
+            }
         }
         .onAppear(perform: setInitialNavigationTitle)
         .navigationBarTitle(Text(dateString), displayMode: .inline)
-        .navigationBarItems(leading: Button(action: {
-            self.showPreviousDate()
-        }) {
+        .navigationBarItems(leading:
+            Button(action: {
+            self.showPreviousDate()})
+            {
             Text("PREV").modifier(ButtonTextStyle())
-        },
-        trailing: Button(action: {
-            self.showNextDate()
-        }) {
-            Text("NEXT").modifier(ButtonTextStyle())
+            },
+            trailing:
+            HStack {
+            Button(action: {
+                self.showNextDate()
+            }) {
+                Text("NEXT").modifier(ButtonTextStyle())
+        }
+            Button(action: {
+                self.showingChildView = true
+                }) {
+                    Text("CONFIG").modifier(ButtonTextStyle())
+            }
         })
     }
     
