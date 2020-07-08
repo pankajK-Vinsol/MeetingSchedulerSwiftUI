@@ -58,8 +58,12 @@ struct MyDatePicker: UIViewRepresentable {
             let format = DateFormatter()
             format.dateFormat = "hh:mm a"
             let selectedValue = format.string(from: sender.date)
+            let format24Hour = DateFormatter()
+            format24Hour.dateFormat = "HH:mm"
+            let startTime24 = format24Hour.string(from: sender.date)
             if timeType == 1 {
                 UserDefaults.standard.set(selectedValue, forKey: "startTime")
+                UserDefaults.standard.set(startTime24, forKey: "24StartTime")
             } else {
                 UserDefaults.standard.set(selectedValue, forKey: "endTime")
             }
@@ -83,6 +87,13 @@ struct SchedulerView: View {
     @State var showDatePicker = false
     @State var currentSelectedTime = Date()
     @State var minterval: Int = 30
+    
+    @State var showsAlert = false
+    @State var alertTitle = ""
+    @State var alertMessage = ""
+    @State var dismissScheduleView = false
+    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     struct ButtonTextStyle: ViewModifier {
         func body(content: Content) -> some View {
@@ -143,7 +154,7 @@ struct SchedulerView: View {
                             .padding(7)
                         
                         Button(action: {
-                            
+                            self.submitForMeeting()
                         }) {
                             Text("SUBMIT")
                                 .frame(width: 200, height: 50, alignment: .center)
@@ -151,20 +162,30 @@ struct SchedulerView: View {
                                 .modifier(BackgroundColorStyle())
                                 .cornerRadius(8)
                         }
-                        
+                        .alert(isPresented: $showsAlert) {
+                            Alert(title: Text(alertTitle), message: Text(alertMessage),
+                                dismissButton: .default (Text("OK")) {
+                                    if self.dismissScheduleView {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                })
+                        }
+                    }
+                    .padding()
+                    .navigationBarTitle(Text("SCHEDULE A MEETING"), displayMode: .inline)
+                    
+                    Section {
                         if self.showDatePicker {
-                            MyDatePicker(selection: $currentSelectedTime, minuteInterval: minterval, minimumTime: lastStartTime, maximumTime: lastEndTime)
-                            Spacer()
                             Button(action: {
                                 self.showDatePicker = false
                                 self.setTime(type: timeType)
                             }) {
                                 Text("DONE")
+                                .frame(alignment: .center)
                             }
+                            MyDatePicker(selection: $currentSelectedTime, minuteInterval: minterval, minimumTime: lastStartTime, maximumTime: lastEndTime)
                         }
                     }
-                    .padding()
-                    .navigationBarTitle(Text("SCHEDULE A MEETING"), displayMode: .inline)
                 }
                 .onAppear {
                     UITableView.appearance().separatorStyle = .none
@@ -234,6 +255,26 @@ struct SchedulerView: View {
         } else {
             self.endTime = UserDefaults.standard.value(forKey: "endTime") as? String ?? ""
         }
+    }
+    
+    private func submitForMeeting() {
+        let defaults: UserDefaults = UserDefaults.standard
+        let startMeetingsArr = defaults.value(forKey: "TimeBookedStart") as? NSArray ?? NSArray()
+        let startTime24 = Int(defaults.value(forKey: "24StartTime") as? String ?? "")
+        
+        for i in 0 ..< startMeetingsArr.count{
+            if startTime24 == startMeetingsArr[i] as? Int ?? 0 {
+                alertTitle = "Slot already booked"
+                alertMessage = "Please choose another slot."
+                showsAlert = true
+            }
+        }
+        
+        // meeting scheduled on selected time by user.
+        alertTitle = "Meeting Scheduled"
+        alertMessage = "Slot is available."
+        showsAlert = true
+        dismissScheduleView = true
     }
 }
 

@@ -27,8 +27,12 @@ class API: NSObject {
                 }
                 
                 var meetingArray = [MeetingData]()
+                let startTimeArray: NSMutableArray = []
+                
                 for i in 0..<json.count {
                     let jsonDataObj = json[i]
+                    let startTime = Int(((jsonDataObj as AnyObject).value(forKey: "start_time") as? String ?? "").replacingOccurrences(of: ":", with: ""))
+                    startTimeArray.add(startTime!)
                     let dataObj = MeetingData(meetingInfo: jsonDataObj as NSDictionary)
                     meetingArray.append(dataObj)
                 }
@@ -38,6 +42,13 @@ class API: NSObject {
                     meetingArray = meetingArray.sorted(by: {Int($0.start_Time!.replacingOccurrences(of: ":", with: ""))! < Int($1.start_Time!.replacingOccurrences(of: ":", with: ""))!})
                     meetingData = meetingArray
                 }
+                
+                var sortedStartTime = startTimeArray.sorted{ (a,b) -> Bool in
+                    return a as! Int > b as! Int
+                }
+                sortedStartTime = sortedStartTime.reversed()
+                let defaults: UserDefaults = UserDefaults.standard
+                defaults.set(sortedStartTime, forKey: "TimeBookedStart")
                 
                 completionHandler(meetingArray)
                 
