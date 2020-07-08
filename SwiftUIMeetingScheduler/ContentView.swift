@@ -106,20 +106,34 @@ struct ContentView: View {
     
     private func setInitialNavigationTitle() {
         let weekDay = Calendar.current.component(.weekday, from: date as Date)
-        if weekDay == 7 {
-            date = Calendar.current.date(byAdding: .day, value: 2, to: date as Date)! as NSDate
-        } else if weekDay == 1 {
-            date = Calendar.current.date(byAdding: .day, value: 1, to: date as Date)! as NSDate
+        if weekendStart == "Saturday" {
+            if weekDay == 7 {
+                date = Calendar.current.date(byAdding: .day, value: 2, to: date as Date)! as NSDate
+            } else if weekDay == 1 {
+                date = Calendar.current.date(byAdding: .day, value: 1, to: date as Date)! as NSDate
+            }
+        } else {
+            if weekDay == 1 {
+                date = Calendar.current.date(byAdding: .day, value: 1, to: date as Date)! as NSDate
+            }
         }
         dateString = convertDateAsString(dateString: date)
     }
     
     private func showPreviousDate() {
         let weekDay = Calendar.current.component(.weekday, from: date as Date)
-        if weekDay == 2 {
-            date = Calendar.current.date(byAdding: .day, value: -3, to: date as Date)! as NSDate
+        if weekendStart == "Saturday" {
+            if weekDay == 2 {
+                date = Calendar.current.date(byAdding: .day, value: -3, to: date as Date)! as NSDate
+            } else {
+                date = Calendar.current.date(byAdding: .day, value: -1, to: date as Date)! as NSDate
+            }
         } else {
-            date = Calendar.current.date(byAdding: .day, value: -1, to: date as Date)! as NSDate
+            if weekDay == 2 {
+                date = Calendar.current.date(byAdding: .day, value: -2, to: date as Date)! as NSDate
+            } else {
+                date = Calendar.current.date(byAdding: .day, value: -1, to: date as Date)! as NSDate
+            }
         }
         dateString = convertDateAsString(dateString: date)
         canScheduleMeetingForDate(date)
@@ -129,10 +143,18 @@ struct ContentView: View {
     
     private func showNextDate() {
         let weekDay = Calendar.current.component(.weekday, from: date as Date)
-        if weekDay == 6 {
-            date = Calendar.current.date(byAdding: .day, value: 3, to: date as Date)! as NSDate
+        if weekendStart == "Saturday" {
+            if weekDay == 6 {
+                date = Calendar.current.date(byAdding: .day, value: 3, to: date as Date)! as NSDate
+            } else {
+                date = Calendar.current.date(byAdding: .day, value: 1, to: date as Date)! as NSDate
+            }
         } else {
-            date = Calendar.current.date(byAdding: .day, value: 1, to: date as Date)! as NSDate
+            if weekDay == 7 {
+                date = Calendar.current.date(byAdding: .day, value: 2, to: date as Date)! as NSDate
+            } else {
+                date = Calendar.current.date(byAdding: .day, value: 1, to: date as Date)! as NSDate
+            }
         }
         dateString = convertDateAsString(dateString: date)
         canScheduleMeetingForDate(date)

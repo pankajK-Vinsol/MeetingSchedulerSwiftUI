@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-var lastStartTime = Double()
-var lastEndTime = Double()
-var weekendStart = String()
+var lastStartTime: Double = 9
+var lastEndTime: Double = 17
+var weekendStart: String = "Saturday"
 
 struct ConfigView: View {
     
